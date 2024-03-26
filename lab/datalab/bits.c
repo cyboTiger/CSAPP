@@ -225,8 +225,8 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return ;
-  /* y>=0 && x<0 || ((y + ~x + 1) >> 32) == 0*/
+  return !((y >> 31) | ~(x >> 31)) | !((y + ~x + 1) >> 31);
+  /* y>=0 && x<0 || ((y + ~x + 1) >> 31) == 0*/
 }
 //4
 /* 
@@ -238,7 +238,10 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return 2;
+  return ~( (x | (~x + 1)) >> 32 ) + 1;
+  /* (x | (-x)) = 1111...1 00..0, if x != 0;
+     else (x | (-x)) = 00..0;
+  */
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -253,7 +256,48 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-  return 0;
+  int y = x ^ (x >> 1) ; // y is positive for sure
+
+  int z1 = y >> 1;
+  int z2 = y >> 2;
+  int z3 = y >> 3;
+  int z4 = y >> 4;
+  int z5 = y >> 5;
+  int z6 = y >> 6;
+  int z7 = y >> 7;
+  int z8 = y >> 8;
+  int z9 = y >> 9;
+  int z10 = y >> 10;
+  int z11 = y >> 11;
+  int z12 = y >> 12;
+  int z13 = y >> 13;
+  int z14 = y >> 14;
+  int z15 = y >> 15;
+  int z16 = y >> 16;
+  int z17 = y >> 17;
+  int z18 = y >> 18;
+  int z19 = y >> 19;
+  int z20 = y >> 20;
+  int z21 = y >> 21;
+  int z22 = y >> 22;
+  int z23 = y >> 23;
+  int z24 = y >> 24;
+  int z25 = y >> 25;
+  int z26 = y >> 26;
+  int z27 = y >> 27;
+  int z28 = y >> 28;
+  int z29 = y >> 29;
+  int z30 = y >> 30;
+  int z31 = y >> 31;
+
+  int t = y | z1 | z2 | z3 | z4 | z5 | z6 | z7 | z8 | z9 | z10 |
+         z11 | z12 | z13 | z14 | z15 | z16 | z17 | z18 | z19 | z20 |
+         z21 | z22 | z23 | z24 | z25 | z26 | z27 | z28 | z29 | z30 | z31;
+  return  ;
+  /*
+  if x > 0, 32 - (number of preceding 0) + 1;
+  else 32 - (number od preceding 1) + 1;
+  */
 }
 //float
 /* 
